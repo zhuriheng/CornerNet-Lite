@@ -246,7 +246,7 @@ def cornernet_saccade(db, nnet, result_dir, debug=False, decode_func=batch_decod
         os.makedirs(debug_dir)
 
     if db.split != "trainval2014":
-        db_inds = db.db_inds[:500] if debug else db.db_inds
+        db_inds = db.db_inds[:50] if debug else db.db_inds
     else:
         db_inds = db.db_inds[:100] if debug else db.db_inds[:5000]
 
@@ -285,8 +285,8 @@ def cornernet_saccade(db, nnet, result_dir, debug=False, decode_func=batch_decod
 
     cls_ids   = list(range(1, categories + 1))
     image_ids = [db.image_ids(ind) for ind in db_inds]
-    db.evaluate(result_json, cls_ids, image_ids)
-    return 0
+    a, b = db.evaluate(result_json, cls_ids, image_ids)
+    return a, b, timer.average_time
 
 def cornernet_saccade_inference(db, nnet, image, decode_func=batch_decode): 
     init_sizes  = db.configs["init_sizes"]

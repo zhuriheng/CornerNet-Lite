@@ -63,7 +63,7 @@ class model(hg_net):
             nn.BatchNorm2d(256)
         )
 
-    def __init__(self):
+    def __init__(self, num_classes=80):
         stacks  = 2
         pre     = nn.Sequential(
             convolution(7, 3, 128, stride=2),
@@ -91,8 +91,8 @@ class model(hg_net):
         tl_modules = nn.ModuleList([corner_pool(256, TopPool, LeftPool) for _ in range(stacks)])
         br_modules = nn.ModuleList([corner_pool(256, BottomPool, RightPool) for _ in range(stacks)])
 
-        tl_heats = nn.ModuleList([self._pred_mod(80) for _ in range(stacks)])
-        br_heats = nn.ModuleList([self._pred_mod(80) for _ in range(stacks)])
+        tl_heats = nn.ModuleList([self._pred_mod(num_classes) for _ in range(stacks)])
+        br_heats = nn.ModuleList([self._pred_mod(num_classes) for _ in range(stacks)])
         for tl_heat, br_heat in zip(tl_heats, br_heats):
             torch.nn.init.constant_(tl_heat[-1].bias, -2.19)
             torch.nn.init.constant_(br_heat[-1].bias, -2.19)

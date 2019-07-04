@@ -2,6 +2,8 @@ from .base import Base, load_cfg, load_nnet
 from .paths import get_file_path
 from .config import SystemConfig
 from .dbs.coco import COCO
+from .dbs.voc import VOC
+from .dbs.terrorpost import TERRORPOST
 
 class CornerNet(Base):
     def __init__(self):
